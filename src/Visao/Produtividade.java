@@ -296,14 +296,27 @@ public class Produtividade extends javax.swing.JFrame {
             new String [] {
                 "", "", "", "", ""
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTabelaAtendimentoProdutivida.setRowHeight(35);
         jScrollPaneTabela.setViewportView(jTabelaAtendimentoProdutivida);
         if (jTabelaAtendimentoProdutivida.getColumnModel().getColumnCount() > 0) {
+            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(0).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(0).setPreferredWidth(550);
+            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(1).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(1).setPreferredWidth(340);
+            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(2).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(2).setPreferredWidth(130);
+            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(3).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(3).setPreferredWidth(155);
+            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(4).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(4).setPreferredWidth(160);
         }
 

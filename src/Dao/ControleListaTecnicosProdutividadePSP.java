@@ -36,8 +36,6 @@ public class ControleListaTecnicosProdutividadePSP {
             List<RegistroAtendimentoInternos> listaTecnicosPSP = new ArrayList<RegistroAtendimentoInternos>();
             try {
                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
-//                dataInicial = formatoAmerica.format(jDataInicial.getDate().getTime());
-//                dataFinal = formatoAmerica.format(jDataFinal.getDate().getTime());
                 conecta.executaSQL("SELECT REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento,"
                         + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalDiario, "
                         + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(WEEK, DATEDIFF(WEEK, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalSemanal, "
@@ -45,16 +43,11 @@ public class ControleListaTecnicosProdutividadePSP {
                         + "FROM REGISTRO_ATENDIMENTO_INTERNO_PSP "
                         + "LEFT JOIN DEPARTAMENTOS "
                         + "ON REGISTRO_ATENDIMENTO_INTERNO_PSP.IdDepartamento=DEPARTAMENTOS.IdDepartamento "
-//                        + "INNER JOIN COLABORADOR "
-//                        + "ON REGISTRO_ATENDIMENTO_INTERNO_PSP.IdFunc=COLABORADOR.IdFunc "
                         + "WHERE REGISTRO_ATENDIMENTO_INTERNO_PSP.Atendido LIKE 'Sim' AND "
                         + "DATEPART(YEAR, REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento) = DATEPART(YEAR, GETDATE()) "
-//                        + "REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento>='" + dataInicial + "' "
-//                        + "AND REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento<='" + dataFinal + "' " 
                         + "GROUP BY REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento, REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd");
                 while (conecta.rs.next()) {
                     RegistroAtendimentoInternos pDigi = new RegistroAtendimentoInternos();
-                   // pDigi.setDataAtendimento(conecta.rs.getDate("DataAtendimento"));
                     pDigi.setNomeFunc(conecta.rs.getString("UsuarioUp"));
                     pDigi.setNomeDepartamento(conecta.rs.getString("NomeDepartamento"));
                     pDigi.setQtdAtend(conecta.rs.getInt("TotalDiario"));
@@ -73,8 +66,6 @@ public class ControleListaTecnicosProdutividadePSP {
             List<RegistroAtendimentoInternos> listaTecnicosPSP = new ArrayList<RegistroAtendimentoInternos>();
             try {
               SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
-//                dataInicial = formatoAmerica.format(jDataInicial.getDate().getTime());
-//                dataFinal = formatoAmerica.format(jDataFinal.getDate().getTime());
                 conecta.executaSQL("SELECT REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento,"
                         + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalDiario, "
                         + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(WEEK, DATEDIFF(WEEK, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalSemanal, "
@@ -82,16 +73,11 @@ public class ControleListaTecnicosProdutividadePSP {
                         + "FROM REGISTRO_ATENDIMENTO_INTERNO_PSP "
                         + "LEFT JOIN DEPARTAMENTOS "
                         + "ON REGISTRO_ATENDIMENTO_INTERNO_PSP.IdDepartamento=DEPARTAMENTOS.IdDepartamento "
-//                        + "INNER JOIN COLABORADOR "
-//                        + "ON REGISTRO_ATENDIMENTO_INTERNO_PSP.IdFunc=COLABORADOR.IdFunc "
                         + "WHERE REGISTRO_ATENDIMENTO_INTERNO_PSP.Atendido LIKE 'Sim' AND "
                         + "DATEPART(YEAR, REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento) = DATEPART(YEAR, GETDATE()) "
-//                        + "REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento>='" + dataInicial + "' "
-//                        + "AND REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento<='" + dataFinal + "' " 
                         + "GROUP BY REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento, REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd");
                 while (conecta.rs.next()) {
                     RegistroAtendimentoInternos pDigi = new RegistroAtendimentoInternos();
-                   // pDigi.setDataAtendimento(conecta.rs.getDate("DataAtendimento"));
                     pDigi.setNomeFunc(conecta.rs.getString("UsuarioUp"));
                     pDigi.setNomeDepartamento(conecta.rs.getString("NomeDepartamento"));
                     pDigi.setQtdAtend(conecta.rs.getInt("TotalDiario"));
