@@ -11,6 +11,7 @@ package Visao;
 //import gestor.Modelo.RegistroAtendimentoInternos;
 import Dao.ConexaoBancoDados;
 import Dao.ControleListaTecnicosProdutividadePSP;
+import Dao.ControleUpdatePSP;
 import Modelo.RegistroAtendimentoInternos;
 import Util.converterDataStringDataDate;
 import java.awt.event.WindowEvent;
@@ -36,7 +37,9 @@ public class Produtividade extends javax.swing.JFrame {
     ConexaoBancoDados conecta = new ConexaoBancoDados();
     ControleListaTecnicosProdutividadePSP control = new ControleListaTecnicosProdutividadePSP();
     converterDataStringDataDate convertedata = new converterDataStringDataDate();
-
+    RegistroAtendimentoInternos objProdKit = new RegistroAtendimentoInternos();
+    ControleUpdatePSP pUPDATE_ATEND_PSP = new ControleUpdatePSP();
+    //
     String dataEvolucao;
     public static int qtdTecnicosPSP = 0;
     SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss"); // HORAIO DE 24 HORAS, PARA O DE 12 HORAS UTILIZAR hh:mm:ss
@@ -44,6 +47,8 @@ public class Produtividade extends javax.swing.JFrame {
     public static String qtd;
     public static String tipoServidor = "";
     public static String tipoBancoDados = "";
+    //QUANTIDADE A SER ATUALIZADA CASO O CAMPOS ATENDIDO ESTEJA COM "Sim"
+    int pQUANTIDADE_ATEND = 1;
 
     //ConexaoDB con = new ConexaoDB();
     /**
@@ -56,7 +61,7 @@ public class Produtividade extends javax.swing.JFrame {
             SwingUtilities.updateComponentTreeUI(this);
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e) {
         }
-          // VERIFICAR PARAMETRO PARA SABER SE O OS É LINUX(UBUNTU) OU WINDOWS.     
+        // VERIFICAR PARAMETRO PARA SABER SE O OS É LINUX(UBUNTU) OU WINDOWS.     
         verificarParametrosSRV();
         mostrarDemostrativoPSP();
         setExtendedState(MAXIMIZED_BOTH); // Maximnizar a tela prinicpal
@@ -148,7 +153,7 @@ public class Produtividade extends javax.swing.JFrame {
         jPanelHoras = new javax.swing.JPanel();
         jHoraSistemaPSP = new javax.swing.JLabel();
         jPanelBotao = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jBAtualizar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISCONP - Sistema de Controle Prisional");
@@ -308,15 +313,10 @@ public class Produtividade extends javax.swing.JFrame {
         jTabelaAtendimentoProdutivida.setRowHeight(35);
         jScrollPaneTabela.setViewportView(jTabelaAtendimentoProdutivida);
         if (jTabelaAtendimentoProdutivida.getColumnModel().getColumnCount() > 0) {
-            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(0).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(0).setPreferredWidth(550);
-            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(1).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(1).setPreferredWidth(340);
-            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(2).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(2).setPreferredWidth(130);
-            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(3).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(3).setPreferredWidth(155);
-            jTabelaAtendimentoProdutivida.getColumnModel().getColumn(4).setResizable(false);
             jTabelaAtendimentoProdutivida.getColumnModel().getColumn(4).setPreferredWidth(160);
         }
 
@@ -465,15 +465,15 @@ public class Produtividade extends javax.swing.JFrame {
 
         jPanelBotao.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jButton1.setBackground(new java.awt.Color(240, 0, 0));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(204, 0, 0));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Button_Refresh_Icon_32.png"))); // NOI18N
-        jButton1.setText("Atualizar");
-        jButton1.setOpaque(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBAtualizar.setBackground(new java.awt.Color(240, 0, 0));
+        jBAtualizar.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jBAtualizar.setForeground(new java.awt.Color(204, 0, 0));
+        jBAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/Button_Refresh_Icon_32.png"))); // NOI18N
+        jBAtualizar.setText("Atualizar");
+        jBAtualizar.setOpaque(false);
+        jBAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBAtualizarActionPerformed(evt);
             }
         });
 
@@ -483,12 +483,12 @@ public class Produtividade extends javax.swing.JFrame {
             jPanelBotaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelBotaoLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jBAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
         jPanelBotaoLayout.setVerticalGroup(
             jPanelBotaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jBAtualizar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanelRodapeLayout = new javax.swing.GroupLayout(jPanelRodape);
@@ -534,10 +534,12 @@ public class Produtividade extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAtualizarActionPerformed
         limpaTabela();
+        objProdKit.setQtdAtend(pQUANTIDADE_ATEND);
+        pUPDATE_ATEND_PSP.alterar_QUANTIDADE_ATENDIDO(objProdKit);
         mostrarDemostrativoPSP();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jBAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -583,7 +585,7 @@ public class Produtividade extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel RotulojPanel;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jBAtualizar;
     private javax.swing.JLabel jDataSistemaPSP;
     private javax.swing.JLabel jHoraSistemaPSP;
     private javax.swing.JLabel jLabel1;
@@ -636,7 +638,9 @@ public class Produtividade extends javax.swing.JFrame {
         RegistroAtendimentoInternos p = new RegistroAtendimentoInternos();
         try {
             for (RegistroAtendimentoInternos pp : control.read()) {
-                dadosProduto.addRow(new Object[]{pp.getNomeFunc(), pp.getNomeDepartamento(), pp.getQtdAtend(), pp.getQtdAtendSem(), pp.getQtdAtendMes()});
+                if (pp.getQtdAtend() != 0 || pp.getQtdAtendSem() != 0 || pp.getQtdAtendMes() != 0) {
+                    dadosProduto.addRow(new Object[]{pp.getNomeFunc(), pp.getNomeDepartamento(), pp.getQtdAtend(), pp.getQtdAtendSem(), pp.getQtdAtendMes()});
+                }
                 // BARRA DE ROLAGEM HORIZONTAL
                 //jTabelaAtendimentoProdutivida.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
@@ -676,13 +680,15 @@ public class Produtividade extends javax.swing.JFrame {
         try {
             while (true) {
                 limpaTabela();
+                objProdKit.setQtdAtend(pQUANTIDADE_ATEND);
+                pUPDATE_ATEND_PSP.alterar_QUANTIDADE_ATENDIDO(objProdKit);
                 mostrarDemostrativoPSP();
                 Thread.sleep(60000);
             }
         } catch (Exception e) {
         }
     }
-    
+
     // PARAMETRO PARA IDENTIFICAR O OS DO SERVIDOR DE BANCO DE DADOS.
     public void verificarParametrosSRV() {
         conecta.abrirConexao();
