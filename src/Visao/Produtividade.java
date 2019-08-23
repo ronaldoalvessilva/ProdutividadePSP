@@ -641,8 +641,6 @@ public class Produtividade extends javax.swing.JFrame {
                 if (pp.getQtdAtend() != 0 || pp.getQtdAtendSem() != 0 || pp.getQtdAtendMes() != 0) {
                     dadosProduto.addRow(new Object[]{pp.getNomeFunc(), pp.getNomeDepartamento(), pp.getQtdAtend(), pp.getQtdAtendSem(), pp.getQtdAtendMes()});
                 }
-                // BARRA DE ROLAGEM HORIZONTAL
-                //jTabelaAtendimentoProdutivida.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
                 DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
                 centralizado.setHorizontalAlignment(SwingConstants.CENTER);
