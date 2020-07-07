@@ -47,6 +47,9 @@ public class Produtividade extends javax.swing.JFrame {
     public static String qtd;
     public static String tipoServidor = "";
     public static String tipoBancoDados = "";
+    
+    public static String pUNIDADE_PRISIONAL = "";
+    
     //QUANTIDADE A SER ATUALIZADA CASO O CAMPOS ATENDIDO ESTEJA COM "Sim"
     int pQUANTIDADE_ATEND = 1;
 
@@ -56,6 +59,7 @@ public class Produtividade extends javax.swing.JFrame {
      */
     public Produtividade() {
         initComponents();
+          unidadePrisional();
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             SwingUtilities.updateComponentTreeUI(this);
@@ -116,6 +120,7 @@ public class Produtividade extends javax.swing.JFrame {
         jLabelCabecalho = new javax.swing.JLabel();
         jLabelLogoSocializa = new javax.swing.JLabel();
         jLabelLogoSisconp = new javax.swing.JLabel();
+        jNomeUnidade = new javax.swing.JLabel();
         jPanelTituloTela = new javax.swing.JPanel();
         RotulojPanel = new javax.swing.JPanel();
         jPanelDataTecSet = new javax.swing.JPanel();
@@ -170,6 +175,9 @@ public class Produtividade extends javax.swing.JFrame {
         jLabelLogoSisconp.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelLogoSisconp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/ICONE70.png"))); // NOI18N
 
+        jNomeUnidade.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jNomeUnidade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanelCabecalhoLayout = new javax.swing.GroupLayout(jPanelCabecalho);
         jPanelCabecalho.setLayout(jPanelCabecalhoLayout);
         jPanelCabecalhoLayout.setHorizontalGroup(
@@ -177,7 +185,9 @@ public class Produtividade extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCabecalhoLayout.createSequentialGroup()
                 .addComponent(jLabelLogoSocializa, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelCabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelCabecalho, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jNomeUnidade, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelLogoSisconp, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -185,11 +195,12 @@ public class Produtividade extends javax.swing.JFrame {
         jPanelCabecalhoLayout.setVerticalGroup(
             jPanelCabecalhoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabelLogoSocializa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanelCabecalhoLayout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabelCabecalho)
-                .addContainerGap(19, Short.MAX_VALUE))
             .addComponent(jLabelLogoSisconp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCabecalhoLayout.createSequentialGroup()
+                .addComponent(jLabelCabecalho)
+                .addGap(0, 0, 0)
+                .addComponent(jNomeUnidade, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanelTituloTela.setBackground(new java.awt.Color(0, 153, 204));
@@ -527,7 +538,7 @@ public class Produtividade extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelCabecalho, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addComponent(jPanelTituloTela, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                .addComponent(jPanelTituloTela, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
 
@@ -604,6 +615,7 @@ public class Produtividade extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelSetor1;
     private javax.swing.JLabel jLabelSetor2;
     private javax.swing.JLabel jLabelTecnico;
+    private javax.swing.JLabel jNomeUnidade;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel2;
@@ -695,6 +707,18 @@ public class Produtividade extends javax.swing.JFrame {
             conecta.rs.first();
             tipoServidor = conecta.rs.getString("TipoServidor");
             tipoBancoDados = conecta.rs.getString("TipoBancoDados");
+        } catch (Exception e) {
+        }
+        conecta.desconecta();
+    }
+    
+    public void unidadePrisional() {
+        conecta.abrirConexao();
+        try {
+            conecta.executaSQL("SELECT * FROM UNIDADE_PENAL_EMPRESA");
+            conecta.rs.first();
+            pUNIDADE_PRISIONAL = conecta.rs.getString("DescricaoUnidade");        
+            jNomeUnidade.setText(pUNIDADE_PRISIONAL);
         } catch (Exception e) {
         }
         conecta.desconecta();
