@@ -37,14 +37,14 @@ public class ControleListaTecnicosProdutividadePSP {
             try {
                SimpleDateFormat formatoAmerica = new SimpleDateFormat("yyyy/MM/dd");
                 conecta.executaSQL("SELECT REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento,"
-                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg >= DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalDiario, "
-                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg >= DATEADD(WEEK, DATEDIFF(WEEK, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalSemanal, "
-                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalMensal "
+                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalDiario, "
+                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(WEEK, DATEDIFF(WEEK, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalSemanal, "
+                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalMensal "
                         + "FROM REGISTRO_ATENDIMENTO_INTERNO_PSP "
                         + "LEFT JOIN DEPARTAMENTOS "
                         + "ON REGISTRO_ATENDIMENTO_INTERNO_PSP.IdDepartamento=DEPARTAMENTOS.IdDepartamento "
                         + "WHERE REGISTRO_ATENDIMENTO_INTERNO_PSP.Atendido LIKE 'Sim' AND "
-                        + "DATEPART(YEAR, REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg) = DATEPART(YEAR, GETDATE()) "
+                        + "DATEPART(YEAR, REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento) = DATEPART(YEAR, GETDATE()) "
                         + "GROUP BY REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento, REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd");
                 while (conecta.rs.next()) {
                     RegistroAtendimentoInternos pDigi = new RegistroAtendimentoInternos();
@@ -67,14 +67,14 @@ public class ControleListaTecnicosProdutividadePSP {
             try {
               SimpleDateFormat formatoAmerica = new SimpleDateFormat("dd/MM/yyyy");
                 conecta.executaSQL("SELECT REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento,"
-                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg >= DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalDiario, "
-                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg >= DATEADD(WEEK, DATEDIFF(WEEK, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalSemanal, "
-                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalMensal "
+                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(DAY, DATEDIFF(DAY, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalDiario, "
+                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(WEEK, DATEDIFF(WEEK, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalSemanal, "
+                        + "SUM(CASE WHEN REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento >= DATEADD(MONTH, DATEDIFF(MONTH, 0, GETDATE()),0) THEN REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd END) AS TotalMensal "
                         + "FROM REGISTRO_ATENDIMENTO_INTERNO_PSP "
                         + "LEFT JOIN DEPARTAMENTOS "
                         + "ON REGISTRO_ATENDIMENTO_INTERNO_PSP.IdDepartamento=DEPARTAMENTOS.IdDepartamento "
                         + "WHERE REGISTRO_ATENDIMENTO_INTERNO_PSP.Atendido LIKE 'Sim' AND "
-                        + "DATEPART(YEAR, REGISTRO_ATENDIMENTO_INTERNO_PSP.DataReg) = DATEPART(YEAR, GETDATE()) "
+                        + "DATEPART(YEAR, REGISTRO_ATENDIMENTO_INTERNO_PSP.DataAtendimento) = DATEPART(YEAR, GETDATE()) "
                         + "GROUP BY REGISTRO_ATENDIMENTO_INTERNO_PSP.UsuarioUp, DEPARTAMENTOS.NomeDepartamento, REGISTRO_ATENDIMENTO_INTERNO_PSP.Qtd");
                 while (conecta.rs.next()) {
                     RegistroAtendimentoInternos pDigi = new RegistroAtendimentoInternos();
