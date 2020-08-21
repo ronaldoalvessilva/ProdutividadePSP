@@ -651,7 +651,7 @@ public class Produtividade extends javax.swing.JFrame {
         try {
             for (RegistroAtendimentoInternos pp : control.read()) {
                 if (pp.getQtdAtend() != 0 || pp.getQtdAtendSem() != 0 || pp.getQtdAtendMes() != 0) {
-                    dadosProduto.addRow(new Object[]{pp.getNomeFunc(), pp.getNomeDepartamento(), pp.getQtdAtend(), pp.getQtdAtendSem(), pp.getQtdAtendMes()});
+                    dadosProduto.addRow(new Object[]{abreviaNome(pp.getNomeFunc()), pp.getNomeDepartamento(), pp.getQtdAtend(), pp.getQtdAtendSem(), pp.getQtdAtendMes()});
                 }
                 // ALINHAR TEXTO DA TABELA CENTRALIZADO
                 DefaultTableCellRenderer centralizado = new DefaultTableCellRenderer();
@@ -722,5 +722,23 @@ public class Produtividade extends javax.swing.JFrame {
         } catch (Exception e) {
         }
         conecta.desconecta();
+    }
+    
+    public String abreviaNome(String nomeInteiro) {    
+        RegistroAtendimentoInternos pDigi = new RegistroAtendimentoInternos();
+        nomeInteiro = nomeInteiro.replace(' ', ';');
+        String nomePedacos[] = nomeInteiro.split(";");
+        int k;
+        String saida = "";
+        for (k = 0; k < nomePedacos.length; k++) {
+            //if(k == 0 || k == (nomePedacos.length-1)) // Não abrevia o primeiro e último nome.
+            if (k == (nomePedacos.length - 1)) // Só não abrevia o último nome.
+            {
+                saida = saida + nomePedacos[k];
+            } else {
+                saida = saida + "" + nomePedacos[k].charAt(0) + ".";
+            }
+        }
+        return saida;
     }
 }
